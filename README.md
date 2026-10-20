@@ -1,37 +1,27 @@
-<<<<<<< HEAD
-# React + TypeScript + Vite
+# Math Blocks
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Math Blocks is a visual math learning app inspired by [MIT Scratch](https://scratch.mit.edu/). Students build expressions by dragging blocks into a workspace and snapping them together.
 
-Currently, two official plugins are available:
+## What you can do
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Explore arithmetic** with number, variable, operation, exponent, square root, absolute value, modulo, fraction, and parentheses blocks.
+- **Work with algebra** by creating equations and solving linear equations.
+- **Explore functions and graphs** by defining a function or line and plotting it on a coordinate grid.
+- **Practice with challenges** covering arithmetic, powers, roots, trigonometry, equation solving, and graphing.
+- **See results as you work** in the side panel.
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Choose a challenge from the dropdown at the top.
+2. Select a category in the Blockly toolbox.
+3. Drag blocks into the workspace and connect them.
+4. Use **Calculate** to evaluate an expression, **Solve** with an equation, or **Graph** to plot a function or line.
+5. Read the result or graph in the panel on the right.
 
-## Expanding the Oxlint configuration
+## Development
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+From the `Math-Blockly` directory, install dependencies and start the development server:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
-=======
-# Math-Blockly
-Teach math with blocks.
->>>>>>> 1aff6a5c83583e4b9a1ced349fe9d7dd2df138fa
+```bash
+npm install
+npm run dev
