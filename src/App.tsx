@@ -23,6 +23,8 @@ const questions = [
   'Find tan(45°).',
   'Find sin⁻¹(0.5) in degrees.',
   'Find cos⁻¹(0.5) in degrees.',
+  'Solve 2x + 3 = 11 for x.',
+  'Define f(x) = 2x + 1, then graph f.',
 ]
 
 function App() {
@@ -32,14 +34,14 @@ function App() {
     <main className="math-app">
       <header className="math-app-header">
         <h1>Math Blocks</h1>
-        <p>Explore math by snapping blocks together.</p>
+        <p>Solve equations and explore functions by snapping math blocks together.</p>
       </header>
       <section className="math-how-to" aria-labelledby="math-how-to-title">
         <h2 id="math-how-to-title">Try it: build 3 + 4</h2>
         <ol>
           <li>Drag a <strong>Number</strong> block from the toolbox into the workspace. Set it to 3.</li>
           <li>Drag an <strong>add</strong> operation into the workspace, then connect Number blocks set to 3 and 4.</li>
-          <li>Read the expression on the right. Add a <strong>Calculate</strong> block to see the answer.</li>
+          <li>Use <strong>Calculate</strong> to evaluate expressions, <strong>Solve</strong> with an Equation block, or connect an expression to <strong>Graph</strong>.</li>
         </ol>
       </section>
       <section className="math-practice" aria-labelledby="math-practice-title">

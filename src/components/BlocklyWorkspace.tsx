@@ -24,13 +24,59 @@ import {
     blockToExpression,
     evaluateExpression,
     expressionToString,
+  solveLinearEquation,
+  type Expression,
 } from "./mathParser";
+import MathGraph from "./MathGraph";
+
+type GraphConfiguration = { expression: Expression; variable: string };
+
+function workspaceToGraph(workspace: Blockly.WorkspaceSvg): GraphConfiguration | null {
+    const graphBlock = workspace.getAllBlocks(false).find((block) => block.type === "math_graph");
+    const target = graphBlock?.getInputTargetBlock("FUNCTION");
+    if (!target) return null;
+
+    if (target.type === "math_function") {
+        const expression = blockToExpression(target.getInputTargetBlock("BODY"));
+        const variable = String(target.getFieldValue("VARIABLE") || "x").trim() || "x";
+        return expression ? { expression, variable } : null;
+    }
+
+    if (target.type === "math_line") {
+        const slope = blockToExpression(target.getInputTargetBlock("SLOPE"));
+        const intercept = blockToExpression(target.getInputTargetBlock("INTERCEPT"));
+        if (!slope || !intercept) return null;
+        return {
+            variable: "x",
+            expression: {
+                type: "operation",
+                operator: "ADD",
+                left: {
+                    type: "operation",
+                    operator: "MULTIPLY",
+                    left: slope,
+                    right: { type: "variable", name: "x" },
+                },
+                right: intercept,
+            },
+        };
+    }
+
+    const expression = blockToExpression(target);
+    return expression ? { expression, variable: "x" } : null;
+}
 
 function workspaceToMath(workspace: Blockly.WorkspaceSvg): string {
     return workspace
         .getTopBlocks(true)
         .filter((block) => !block.isShadow())
         .map((block) => {
+            if (block.type === "math_solve") {
+                const variable = String(block.getFieldValue("VARIABLE") || "x").trim() || "x";
+                const solution = solveLinearEquation(block.getInputTargetBlock("EQUATION"), variable);
+                return solution ? `Solution: ${solution}` : block.toString(80, "□");
+            }
+
             const parsedExpression = blockToExpression(block);
             if (!parsedExpression) {
                 return block.toString(80, "□");
@@ -75,6 +121,7 @@ export default function BlocklyWorkspace() {
     const blocklyDiv = useRef<HTMLDivElement | null>(null);
     const workspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
     const [expression, setExpression] = useState("");
+    const [graph, setGraph] = useState<GraphConfiguration | null>(null);
 
     // UI state
     // const [result, setResult] = useState("");
@@ -383,11 +430,13 @@ export default function BlocklyWorkspace() {
             }
 
             setExpression(workspaceToMath(workspace));
+            setGraph(workspaceToGraph(workspace));
         };
 
         // IMPORTANT: Actually register the listener
         workspace.addChangeListener(changeListener);
         setExpression(workspaceToMath(workspace));
+        setGraph(workspaceToGraph(workspace));
 
         return () => {
             workspace.removeChangeListener(changeListener);
@@ -406,6 +455,7 @@ export default function BlocklyWorkspace() {
                 <div className="math-expression-output" aria-live="polite">
                     {expression || "Build an expression with blocks."}
                 </div>
+                {graph && <MathGraph expression={graph.expression} variable={graph.variable} />}
             </aside>
         </div>
     );

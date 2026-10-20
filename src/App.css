@@ -162,6 +162,56 @@
   overflow-wrap: anywhere;
 }
 
+.math-graph-panel {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #ddd;
+}
+
+.math-graph-panel h3 {
+  margin: 0 0 8px;
+  color: #555;
+  font-size: 14px;
+}
+
+.math-graph-panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #e1e6ea;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.math-graph-gridline {
+  stroke: #e7edf1;
+  stroke-width: 1;
+}
+
+.math-graph-axis {
+  stroke: #52616b;
+  stroke-width: 1.5;
+}
+
+.math-graph-curve {
+  fill: none;
+  stroke: #3976a8;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.math-graph-label {
+  fill: #52616b;
+  font-size: 12px;
+}
+
+.math-graph-panel p {
+  margin: 6px 0 0;
+  color: #66737b;
+  font-size: 12px;
+}
+
 @media (max-width: 760px) {
   .math-workspace-layout {
     grid-template-columns: minmax(0, 1fr);

@@ -337,7 +337,8 @@ export function expressionToString(expression: Expression | null): string {
 
 
 export function evaluateExpression(
-  expression: Expression | null
+  expression: Expression | null,
+  variables: Record<string, number> = {},
 ): number | null {
   if (!expression) {
     return null;
@@ -350,19 +351,16 @@ export function evaluateExpression(
 
   //VARIABLE
   if (expression.type === "variable") {
-    return null;
+    const value = variables[expression.name];
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
   }
 
 
   //OPERATIONS
   if (expression.type === "operation") {
-    const left = evaluateExpression(
-      expression.left
-    );
+    const left = evaluateExpression(expression.left, variables);
 
-    const right = evaluateExpression(
-      expression.right
-    );
+    const right = evaluateExpression(expression.right, variables);
 
     if (left === null || right === null) {
       return null;
@@ -392,8 +390,10 @@ export function evaluateExpression(
 
         return left % right;
 
-      case "POWER":
-        return Math.pow(left, right);
+      case "POWER": {
+        const result = Math.pow(left, right);
+        return Number.isFinite(result) ? result : null;
+      }
 
       default:
         return null;
@@ -402,10 +402,7 @@ export function evaluateExpression(
 
   //UNARY OPERATIONS
   if (expression.type === "unary") {
-    const value =
-      evaluateExpression(
-        expression.value
-      );
+    const value = evaluateExpression(expression.value, variables);
 
     if (value === null) {
       return null;
@@ -484,4 +481,63 @@ export function evaluateExpression(
   }
 
   return null;
+}
+
+type LinearForm = { coefficient: number; constant: number };
+
+function asLinearForm(expression: Expression, variable: string): LinearForm | null {
+  if (expression.type === "number") {
+    return { coefficient: 0, constant: expression.value };
+  }
+  if (expression.type === "variable") {
+    return expression.name === variable
+      ? { coefficient: 1, constant: 0 }
+      : null;
+  }
+  if (expression.type === "unary" && expression.operator === "NEGATIVE") {
+    const value = asLinearForm(expression.value, variable);
+    return value ? { coefficient: -value.coefficient, constant: -value.constant } : null;
+  }
+  if (expression.type !== "operation") return null;
+
+  const left = asLinearForm(expression.left, variable);
+  const right = asLinearForm(expression.right, variable);
+  if (!left || !right) return null;
+
+  switch (expression.operator) {
+    case "ADD":
+      return { coefficient: left.coefficient + right.coefficient, constant: left.constant + right.constant };
+    case "SUBTRACT":
+      return { coefficient: left.coefficient - right.coefficient, constant: left.constant - right.constant };
+    case "MULTIPLY":
+      if (left.coefficient !== 0 && right.coefficient !== 0) return null;
+      return {
+        coefficient: left.coefficient * right.constant + right.coefficient * left.constant,
+        constant: left.constant * right.constant,
+      };
+    case "DIVIDE":
+      if (right.coefficient !== 0 || right.constant === 0) return null;
+      return { coefficient: left.coefficient / right.constant, constant: left.constant / right.constant };
+    default:
+      return null;
+  }
+}
+
+export function solveLinearEquation(block: Blockly.Block | null, variable: string): string | null {
+  if (!block || block.type !== "math_equation") return null;
+  const left = blockToExpression(block.getInputTargetBlock("LEFT"));
+  const right = blockToExpression(block.getInputTargetBlock("RIGHT"));
+  if (!left || !right) return null;
+
+  const leftForm = asLinearForm(left, variable);
+  const rightForm = asLinearForm(right, variable);
+  if (!leftForm || !rightForm) return null;
+  const coefficient = leftForm.coefficient - rightForm.coefficient;
+  const constant = rightForm.constant - leftForm.constant;
+
+  if (coefficient === 0) {
+    return constant === 0 ? "Infinitely many solutions" : "No solution";
+  }
+  const solution = constant / coefficient;
+  return Number.isFinite(solution) ? `${variable} = ${Number(solution.toPrecision(12))}` : null;
 }
