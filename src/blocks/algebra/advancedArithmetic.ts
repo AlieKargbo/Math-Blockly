@@ -16,21 +16,21 @@ import * as Blockly from "blockly";
 export function registerExponentBlock() {
   Blockly.Blocks["math_exponent"] = {
     init: function () {
-      this.appendValueInput("Exponent")
-        .setCheck([
-          "Number",
-          "Variable",
-          "Expression",
-        ])
-        .appendField("Exponent");
-
-      this.appendValueInput("Base")
+      this.appendValueInput("BASE")
         .setCheck([
           "Number",
           "Variable",
           "Expression",
         ])
         .appendField("Base");
+
+      this.appendValueInput("POWER")
+        .setCheck([
+          "Number",
+          "Variable",
+          "Expression",
+        ])
+        .appendField("Exponent");
 
       this.setOutput(true, "Expression");
       this.setColour(120);

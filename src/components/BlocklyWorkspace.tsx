@@ -32,9 +32,13 @@ function workspaceToMath(workspace: Blockly.WorkspaceSvg): string {
         .filter((block) => !block.isShadow())
         .map((block) => {
             const parsedExpression = blockToExpression(block);
+            if (!parsedExpression) {
+                return block.toString(80, "□");
+            }
+
             const math = expressionToString(parsedExpression);
 
-            if (block.type !== "math_calculate" || !parsedExpression) {
+            if (block.type !== "math_calculate") {
                 return math;
             }
 
