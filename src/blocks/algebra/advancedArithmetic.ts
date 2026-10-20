@@ -62,6 +62,7 @@ export function registerSquareRootBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("√");
@@ -130,6 +131,7 @@ export function registerModuloBlock() {
       this.appendValueInput("LEFT")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Left");
@@ -140,6 +142,7 @@ export function registerModuloBlock() {
       this.appendValueInput("RIGHT")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Right");
@@ -209,6 +212,7 @@ export function registerFractionBlock() {
       this.appendValueInput("NUMERATOR")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Numerator");
@@ -216,6 +220,7 @@ export function registerFractionBlock() {
       this.appendValueInput("DENOMINATOR")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Denominator");

@@ -66,6 +66,7 @@ export function registerEvaluateFunctionBlock() {
       this.appendValueInput("INPUT")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("at");

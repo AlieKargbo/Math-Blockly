@@ -10,6 +10,7 @@ export function registerSinBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("sin");
@@ -36,6 +37,7 @@ export function registerCosBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("cos");
@@ -62,6 +64,7 @@ export function registerTanBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("tan");
@@ -88,6 +91,7 @@ export function registerDegreesBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Degrees");
@@ -114,6 +118,7 @@ export function registerRadiansBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("Radians");
@@ -140,6 +145,7 @@ export function registerArcSinBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("sin⁻¹");
@@ -166,6 +172,7 @@ export function registerArcCosBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("cos⁻¹");
@@ -192,6 +199,7 @@ export function registerArcTanBlock() {
       this.appendValueInput("VALUE")
         .setCheck([
           "Number",
+          "Variable",
           "Expression",
         ])
         .appendField("tan⁻¹");

@@ -8,14 +8,14 @@ export function registerRectangleBlock() {
   Blockly.Blocks["geometry_rectangle"] = {
     init: function () {
       this.appendValueInput("LENGTH")
-        .setCheck("Number")
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("Length");
 
       this.appendValueInput("WIDTH")
-        .setCheck("Number")
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("Width");
 
-      this.setOutput(true, "Shape");
+      this.setOutput(true, "Rectangle");
       this.setColour(250);
 
       this.setTooltip(
@@ -35,14 +35,14 @@ export function registerTriangleBlock() {
   Blockly.Blocks["geometry_triangle"] = {
     init: function () {
       this.appendValueInput("BASE")
-        .setCheck("Number")
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("Base");
 
       this.appendValueInput("HEIGHT")
-        .setCheck("Number")
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("Height");
 
-      this.setOutput(true, "Shape");
+      this.setOutput(true, "Triangle");
       this.setColour(250);
 
       this.setTooltip(
@@ -62,10 +62,10 @@ export function registerCircleBlock() {
   Blockly.Blocks["geometry_circle"] = {
     init: function () {
       this.appendValueInput("RADIUS")
-        .setCheck("Number")
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("Radius");
 
-      this.setOutput(true, "Shape");
+      this.setOutput(true, "Circle");
       this.setColour(250);
 
       this.setTooltip(
@@ -85,7 +85,7 @@ export function registerAreaBlock() {
   Blockly.Blocks["geometry_area"] = {
     init: function () {
       this.appendValueInput("SHAPE")
-        .setCheck("Shape")
+        .setCheck(["Rectangle", "Triangle", "Circle"])
         .appendField("Area of");
 
       this.setOutput(true, "Number");
@@ -108,7 +108,7 @@ export function registerPerimeterBlock() {
   Blockly.Blocks["geometry_perimeter"] = {
     init: function () {
       this.appendValueInput("SHAPE")
-        .setCheck("Shape")
+        .setCheck(["Rectangle", "Triangle"])
         .appendField("Perimeter of");
 
       this.setOutput(true, "Number");
@@ -131,7 +131,7 @@ export function registerCircumferenceBlock() {
   Blockly.Blocks["geometry_circumference"] = {
     init: function () {
       this.appendValueInput("SHAPE")
-        .setCheck("Shape")
+        .setCheck("Circle")
         .appendField("Circumference of");
 
       this.setOutput(true, "Number");
@@ -154,7 +154,7 @@ export function registerVolumeBlock() {
   Blockly.Blocks["geometry_volume"] = {
     init: function () {
       this.appendValueInput("SHAPE")
-        .setCheck("Shape")
+        .setCheck("RectangularPrism")
         .appendField("Volume of");
 
       this.setOutput(true, "Number");
@@ -170,10 +170,31 @@ export function registerVolumeBlock() {
 }
 
 
+export function registerRectangularPrismBlock() {
+  Blockly.Blocks["geometry_rectangular_prism"] = {
+    init: function () {
+      this.appendValueInput("LENGTH")
+        .setCheck(["Number", "Variable", "Expression"])
+        .appendField("Length");
+      this.appendValueInput("WIDTH")
+        .setCheck(["Number", "Variable", "Expression"])
+        .appendField("Width");
+      this.appendValueInput("HEIGHT")
+        .setCheck(["Number", "Variable", "Expression"])
+        .appendField("Height");
+      this.setOutput(true, "RectangularPrism");
+      this.setColour(250);
+      this.setTooltip("Create a rectangular prism for volume calculations.");
+      this.setHelpUrl("");
+    },
+  };
+}
+
 export function registerGeometryBlocks() {
   registerRectangleBlock();
   registerTriangleBlock();
   registerCircleBlock();
+  registerRectangularPrismBlock();
   registerAreaBlock();
   registerPerimeterBlock();
   registerCircumferenceBlock();

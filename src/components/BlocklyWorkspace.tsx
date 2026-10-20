@@ -10,6 +10,7 @@ import { registerOperationBlock } from "../blocks/operator";
 import { registerEquationBlock } from "../blocks/equation";
 import { registerCalculateBlock } from "../blocks/algebra/calculate";
 import { registerSolveBlock } from "../blocks/algebra/solve";
+import { registerParenthesesBlock } from "../blocks/algebra/parentheses";
 import { registerAdvancedArithmeticBlocks, } from "../blocks/algebra/advancedArithmetic";
 import { registerAlgebraBlocks, } from "../blocks/algebra/algebra";
 import { registerFunctionBlocks, } from "../blocks/algebra/functions";
@@ -64,10 +65,9 @@ function workspaceToGraph(workspace: Blockly.WorkspaceSvg): GraphConfiguration |
 }
 
 function workspaceToMath(workspace: Blockly.WorkspaceSvg): string {
-    return workspace
-        .getTopBlocks(true)
+    const topBlocks = workspace.getTopBlocks(true)
         .filter((block) => !block.isShadow())
-        .map((block) => {
+    const formatBlock = (block: Blockly.Block): string => {
             if (block.type === "math_solve") {
                 const variable = String(block.getFieldValue("VARIABLE") || "x").trim() || "x";
                 const solution = solveLinearEquation(block.getInputTargetBlock("EQUATION"), variable);
@@ -91,7 +91,14 @@ function workspaceToMath(workspace: Blockly.WorkspaceSvg): string {
             }
 
             return `${math} = ${Number(result.toPrecision(12))}`;
-        })
+    };
+
+    const topLevelLines = topBlocks.map(formatBlock);
+    const nestedCalculations = workspace.getAllBlocks(false)
+        .filter((block) => block.type === "math_calculate" && !topBlocks.includes(block))
+        .map(formatBlock);
+
+    return [...topLevelLines, ...nestedCalculations]
         .filter(Boolean)
         .join("\n");
 }
@@ -140,6 +147,7 @@ export default function BlocklyWorkspace() {
         registerEquationBlock();
         registerCalculateBlock();
         registerSolveBlock();
+        registerParenthesesBlock();
 
         registerAdvancedArithmeticBlocks();
         registerAlgebraBlocks();
@@ -202,6 +210,10 @@ export default function BlocklyWorkspace() {
                         {
                             kind: "block",
                             type: "math_fraction",
+                        },
+                        {
+                            kind: "block",
+                            type: "math_parentheses",
                         },
                     ],
                 },
@@ -311,6 +323,10 @@ export default function BlocklyWorkspace() {
                         {
                             kind: "block",
                             type: "geometry_circle",
+                        },
+                        {
+                            kind: "block",
+                            type: "geometry_rectangular_prism",
                         },
                         {
                             kind: "block",

@@ -6,19 +6,11 @@ export function registerCalculateBlock() {
       this.appendValueInput("EXPRESSION")
         .setCheck([
           "Number",
-          "Variable",
           "Expression",
-          "Inequality",
-          "Function",
-          "Point",
-          "Line",
-          "Shape",
-          "Domain",
-          "Range",
         ])
         .appendField("Calculate");
 
-      this.setOutput(true, "Number");
+      this.setPreviousStatement(true);
 
       this.setColour(160);
 

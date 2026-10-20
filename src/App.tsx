@@ -32,41 +32,46 @@ function App() {
 
   return (
     <main className="math-app">
-      <header className="math-app-header">
-        <h1>Math Blocks</h1>
-        <p>Solve equations and explore functions by snapping math blocks together.</p>
+      <header className="math-topbar">
+        <a className="math-brand" href="#workspace" aria-label="Math Blocks home">
+          <span className="math-brand-mark" aria-hidden="true">∑</span>
+          <span>Math Blocks</span>
+        </a>
+        <div className="math-topbar-title">Visual Math Studio</div>
+        <label className="math-challenge-picker">
+          <span>Challenge</span>
+          <select
+            value={activeQuestion}
+            onChange={(event) => setActiveQuestion(Number(event.target.value))}
+          >
+            {questions.map((question, index) => (
+              <option key={question} value={index}>{index + 1}. {question}</option>
+            ))}
+          </select>
+        </label>
       </header>
-      <section className="math-how-to" aria-labelledby="math-how-to-title">
-        <h2 id="math-how-to-title">Try it: build 3 + 4</h2>
-        <ol>
-          <li>Drag a <strong>Number</strong> block from the toolbox into the workspace. Set it to 3.</li>
-          <li>Drag an <strong>add</strong> operation into the workspace, then connect Number blocks set to 3 and 4.</li>
-          <li>Use <strong>Calculate</strong> to evaluate expressions, <strong>Solve</strong> with an Equation block, or connect an expression to <strong>Graph</strong>.</li>
-        </ol>
+
+      <div className="math-challenge-bar">
+        <div className="math-challenge-copy" aria-live="polite">
+          <span className="math-eyebrow">YOUR CHALLENGE · {activeQuestion + 1} OF {questions.length}</span>
+          <strong>{questions[activeQuestion]}</strong>
+        </div>
+        <details className="math-guide">
+          <summary>How to use</summary>
+          <div className="math-guide-popover">
+            <h2>Build, solve, explore</h2>
+            <ol>
+              <li>Choose a math category on the left.</li>
+              <li>Drag blocks into the workspace and snap them together.</li>
+              <li>Use Calculate for a value, Solve with an equation, or Graph to plot a function.</li>
+            </ol>
+          </div>
+        </details>
+      </div>
+
+      <section id="workspace" className="math-editor" aria-label="Math block editor">
+        <BlocklyWorkspace />
       </section>
-      <section className="math-practice" aria-labelledby="math-practice-title">
-        <h2 id="math-practice-title">Practice questions</h2>
-        <p>Choose a question, build it with blocks, then use Calculate to check the value.</p>
-        <ol className="math-question-list">
-          {questions.map((question, index) => (
-            <li key={question}>
-              <button
-                type="button"
-                className="math-question-button"
-                aria-pressed={activeQuestion === index}
-                onClick={() => setActiveQuestion(index)}
-              >
-                <span className="math-question-number">{index + 1}</span>
-                <span>{question}</span>
-              </button>
-            </li>
-          ))}
-        </ol>
-        <p className="math-active-question" aria-live="polite">
-          <strong>Current question {activeQuestion + 1}:</strong> {questions[activeQuestion]}
-        </p>
-      </section>
-      <BlocklyWorkspace />
     </main>
   )
 }

@@ -240,6 +240,16 @@ export function blockToExpression(
     );
   }
 
+  if (block.type === "math_parentheses") {
+    return blockToExpression(block.getInputTargetBlock("EXPRESSION"));
+  }
+
+  if (block.type === "math_solve") {
+    const variable = String(block.getFieldValue("VARIABLE") || "x").trim() || "x";
+    const value = solveLinearEquationValue(block.getInputTargetBlock("EQUATION"), variable);
+    return value === null ? null : { type: "number", value };
+  }
+
   return null;
 }
 
@@ -540,4 +550,20 @@ export function solveLinearEquation(block: Blockly.Block | null, variable: strin
   }
   const solution = constant / coefficient;
   return Number.isFinite(solution) ? `${variable} = ${Number(solution.toPrecision(12))}` : null;
+}
+
+export function solveLinearEquationValue(block: Blockly.Block | null, variable: string): number | null {
+  if (!block || block.type !== "math_equation") return null;
+  const left = blockToExpression(block.getInputTargetBlock("LEFT"));
+  const right = blockToExpression(block.getInputTargetBlock("RIGHT"));
+  if (!left || !right) return null;
+  const leftForm = asLinearForm(left, variable);
+  const rightForm = asLinearForm(right, variable);
+  if (!leftForm || !rightForm) return null;
+
+  const coefficient = leftForm.coefficient - rightForm.coefficient;
+  const constant = rightForm.constant - leftForm.constant;
+  if (coefficient === 0) return null;
+  const solution = constant / coefficient;
+  return Number.isFinite(solution) ? solution : null;
 }

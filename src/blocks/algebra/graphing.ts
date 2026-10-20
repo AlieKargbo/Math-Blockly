@@ -9,11 +9,11 @@ export function registerPointBlock() {
   Blockly.Blocks["math_point"] = {
     init: function () {
       this.appendValueInput("X")
-        .setCheck(["Number", "Expression"])
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("x");
 
       this.appendValueInput("Y")
-        .setCheck(["Number", "Expression"])
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("y");
 
       this.setOutput(true, "Point");
@@ -65,7 +65,7 @@ export function registerYInterceptBlock() {
   Blockly.Blocks["math_y_intercept"] = {
     init: function () {
       this.appendValueInput("LINE")
-        .setCheck("Expression")
+        .setCheck("Line")
         .appendField("Line");
 
       this.setOutput(true, "Number");

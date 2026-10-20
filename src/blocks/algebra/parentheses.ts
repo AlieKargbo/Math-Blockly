@@ -4,13 +4,13 @@ export function registerParenthesesBlock() {
   Blockly.Blocks["math_parentheses"] = {
     init() {
       this.appendValueInput("EXPRESSION")
-        .setCheck(null)
+        .setCheck(["Number", "Variable", "Expression"])
         .appendField("(");
 
       this.appendDummyInput()
         .appendField(")");
 
-      this.setOutput(true);
+      this.setOutput(true, "Expression");
 
       this.setColour(180);
     },
