@@ -28,7 +28,7 @@ export function registerPeptideChainBlock() {
     addResidueInput(this, 0);
 
     // Watch for connections
-    this.setOnChange(function (this: Blockly.Block, event: Blockly.Events.Abstract) {
+    this.setOnChange(function (this: Blockly.Block) {
       if (this.isInFlyout) return;
       if (this.isDeadOrDying()) return;
 

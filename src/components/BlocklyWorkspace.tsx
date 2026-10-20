@@ -1,5 +1,5 @@
 //BlocklyWorkspace.tsx
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Blockly from "blockly";
 
 
@@ -17,9 +17,6 @@ import { registerGraphingBlocks, } from "../blocks/algebra/graphing";
 import { registerGeometryBlocks, } from "../blocks/algebra/geometry";
 import { registerTrigonometryBlocks, } from "../blocks/algebra/trigonometry";
 
-import { registerAminoAcidResidueBlock } from "../blocks/aminoAcidResidue";
-import { registerPeptideChainBlock } from "../blocks/peptideChain";
-import { registerProteinComplexBlock } from "../blocks/proteinComplex";
 import {
     blockToExpression,
     evaluateExpression,
